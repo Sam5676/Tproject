@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online interview</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <script defer src="scripts/script.js"></script>
+    <script defer src="scripts/webcam.js"></script>
+</head>
+<body>
+<main class="all-pages">
+    <header class="header">
+        <ul class="header__grid">
+            <li class="header__logo header__list-item">
+                <a href="#" class="header__main-page">
+                    <img src="img/png/logo-type.png" srcset="img/png/logo-type@2x.png 2x, img/png/logo-type@3x.png 3x" alt="ПриватБанк">
+                </a>
+            </li>
+            <li class="header__list-item header__list-item_ua" id="Hi">
+                <button type="button" class="button header__button_lang_ua" onclick="changeLanUa()">укр</button>
+            </li>
+            <li class="header__list-item header__list-item_ru">
+                <button type="button" class="button header__button_lang_ru" onclick="changeLanRu()">рус</button>
+            </li>
+        </ul>
+    </header>
+    <div class="main-screen">
+        <section class="main">
+            <h1 class="main__slogan">Оффлайн интервью</h1>
+            <p class="main__explanation explanation">Добро пожаловать в систему дистанционной оценки кандидатов на работу в ПриватБанк.
+            Пожалуйста, введите номер телефона, который Вы указали в резюме.</p>
+            <form action="#" class="num-notification input-number-js">
+                <input type="tel" name="phone-number" class="num-notification__phone-number" placeholder="+380 (00) 000 00 00" value="+380" maxlength="13" size="13" required pattern=" [0-9]{12}">
+                    <button type="button" onclick="showInstruction()" class="num-notification__arrow-submit">
+                        <img src="img/svg/next.svg" alt="right arrow" class="next">
+                    </button>
+            </form>
+            <template class="main__change-input">
+                <form action="#" class="num-notification verification-code-js">
+                    <input type="tel" name="phone-number" class="num-notification__phone-number" placeholder="Введите ОТП-пароль" maxlength="4" size="4" required pattern=" [0-9]{12}">
+                    <button type="button" onclick="showSettings()" class="num-notification__arrow-submit">
+                        <img src="img/svg/next.svg" alt="right arrow" class="next">
+                    </button>
+                </form>
+            </template>
+            <template class="main__hidden-instructions">
+                <p class="main__instruction">На номер <span class="main__tooltip-phone-number"></span> был отправлен SMS
+                    пароль. Сообщение может прийти в Приват24,
+                    Sender или в виде SMS сообщения.</p>
+                <p class="main__instruction-timer">Через <span class="time"></span> Вы сможете подтвердить вход
+                    при помощи звонка.</p>
+            </template>
+            <template class="call-me">
+                <div class="call-me-container">
+                    <div class="phone-icon-container-js">
+                        <img src="img/svg/phoneicon.svg" alt="трубка" class="phone-icon">
+                    </div>
+                    <input type="button" onclick="callAnimation()" class="call button" value="Позвоните мне">
+                </div>
+            </template>
+        <div class="tooltip-instructions"></div>
+        </section>
+
+        <template class="grant-rights">
+            <section class="grant-rights__container">
+                <p class="grant-rights__steps">Шаг <span>1</span> из 3</p>
+                <h2 class="grant-rights__subheaders">Настройки подключения</h2>
+                <p class="grant-rights__paragraphs">Для проведения видеозаписи нам необходимо получить доступ:</p>
+                <p class="grant-rights__list-item grant-rights__list-item_first"><strong>доступ к камере</strong></p>
+                <p class="grant-rights__list-item grant-rights__list-item_last"><strong>доступ к микрофону</strong></p>
+                <p class="grant-rights__paragraphs">Для корректной работы системы, пожалуйста, нажмите “Разрешить” в открывшемся диалоговом окне. В случае, если у вас более одной камеры или микрофона, выберите те, которые необходимы в выпадающем списке.</p>
+            </section>
+        </template>
+
+        <div class="video-container">
+<!--            <div class="reply-time-container">-->
+<!--                <span class="remainder">Остаток времени</span>-->
+<!--                <span class="time">Остаток времени</span>-->
+<!--            </div>-->
+<!--            <div class="ready-for-record-container">-->
+<!--                <span class="ready-for-record">Готово к записи</span>-->
+<!--            </div>-->
+            <template class="record-progress">
+                <div class="record-progress-container">
+                    <img src="" alt="" class="record-progress-icon">
+                    <span class="record-progress-span">Идёт запись</span>
+                </div>
+            </template>
+<!--            <span class="reply-time"></span>-->
+            <video id="gum" class="videos video-record" playsinline autoplay muted></video>
+            <video id="recorded" class="videos video-play" playsinline loop></video>
+        </div>
+
+        <div>
+            <button id="start" class="cam-next cam-buttons" onclick="requestAccess()">Продолжить</button>
+            <div class="cams-controller">
+                <button id="record" onclick="" class="record-button cam-buttons" disabled><span>Start Recording</span></button>
+                <button id="new-record" class="record-button cam-buttons"><span>Следующий вопрос</span></button>
+                <!--            <button id="play" class="play-button cam-buttons" disabled><spa>Play</spa></button>-->
+                <!--            <button id="download" disabled>Download</button>-->
+                <div class="addition-functions">
+                    <h4>Media Stream Constraints options</h4>
+                    <p>Echo cancellation: <input type="checkbox" id="echoCancellation"></p>
+                </div>
+            </div>
+        </div>
+
+
+        <template class="demo-test">
+            <section class="some-instructions">
+                <p class="some-instructions__steps">Шаг <span>2</span> из 3</p>
+                <h2 class="some-instructions__subheaders">Для успешной записи интервью:</h2>
+                <div class="some-instructions__paragraphs">
+                    <p>Вам необходимо будет ответить на несколько вопросов,
+                        касающихся Вашего опыта работы. <strong class="strong">Интервью займет у Вас не более 15 минут.</strong></p>
+
+                    <p>Сначала Вы будете видеть вопрос. На этом этапе никакой
+                    видеозаписи не ведется. У Вас есть возможность подготовиться
+                    к ответу. Когда Вы будете готовы отвечать, нажимайте кнопку «Записать видео»</p>
+
+                    <p>Включится запись Вашего ответа. Обратите внимание на
+                    таймер. Ответ на каждый вопрос ограничен по времени!
+                    Поэтому отвечайте четко на поставленный вопрос.</p>
+
+                    <p>Вопрос все время будет перед Вами, вверху страницы.
+                    Вы можете остановить запись или закончить запись досрочно.
+                    Некоторые вопросы могут содержать несколько небольших
+                    уточняющих вопросов-подсказок. Пожалуйста, следуйте им
+                    и отвечайте на все вопросы для полного развернутого ответа.
+                    Записав ответ на вопрос, у Вас будет возможность:</p>
+                    <ul class="list">
+                        <li>просмотреть свой ответ</li>
+                        <li>1 раз его перезаписать</li>
+                    </ul>
+                </div>
+
+                <button class="next-step" onclick="showPreview()">Продолжить</button>
+            </section>
+        </template>
+
+        <template class="preview">
+            <section class="preview__container">
+                <p class="preview__steps">Шаг <span>3</span> из 3</p>
+                <h2 class="preview__subheaders">Давайте начинать!</h2>
+                <p class="preview__paragraphs">Для записи ответа на вопрос нажмите на «Запись видео»
+                и отвечайте на вопрос. Учтите ограниченость времени на вопрос и используйте его рационально.</p>
+                <button class="next-step" onclick="letsBegin()">Начать интервью</button>
+            </section>
+        </template>
+
+        <template class="interrogation">
+            <section class="interrogation-container">
+                <p class="interrogation__question-num">Вопросы <span>1</span> из 5</p>
+                <h3 class="interrogation__subheaders">Давайте познакомимся! Раскажите о себе</h3>
+                <ol class="interrogation__question-list">
+                    <li>На какой специальности Вы учились?</li>
+                    <li>Почему выбрали такую специальность?</li>
+                    <li>Какой опыт работы имеете?</li>
+                    <li>С чем был связана смена мест работы/должностей?</li>
+                    <li>Какие вакансии сейчас рассматриваете?</li>
+                </ol>
+                <div class="interrogation__warning-container">
+                    <h4 class="interrogation__warning">Помните!</h4>
+                    <p class="interrogation__prompt">Вам необходимо ответить на все вопросы.
+                        От полноты и качестват ответов зависит результат интервью.</p>
+                </div>
+
+                </section>
+        </template>
+        <template class="thankful">
+            <h3 class="thankful__subheaders">Благодарим за уделенное время!
+                Спасибо за интерес к нашим вакансиям.</h3>
+            <p class="thankful__paragraph">
+                В течении 3 рабочих дней с Вами свяжется рукретер
+                и сообщит реузльтаты оффлайн интервью.
+            </p>
+            <h5 class="thankful__post">рекрутер</h5>
+            <p class="thankful__postman-info">Довгая Инна Павловна</p>
+            <p class="thankful__postman-info">+38 (067) 188-44-13</p>
+            <p class="thankful__postman-info">InnaDovgaya@gmail.com</p>
+        </template>
+        <img src="img/jpg/173-3.jpg" srcset="img/jpg/173-3@2x.jpg 2x, img/jpg/173-3@3x.jpg 3x" alt="" class="mail">
+
+    </div>
+    <div class="all-screen-load">
+<!--        <img class="loading all-screen-load__loading-animation" src="img/svg/group-8.svg" alt="load">-->
+        <div class="card">
+            <h4 class="card__subheader">Вы действительно хотите перезаписать видое?</h4>
+            <p class="card__explanation">При перезаписи видео, старое видео будет удалено безвозвратно. Продолжить?</p>
+            <div class="card__button-container">
+                <input type="button" class="button" value="Отменить">
+                <input type="button" class="button" value="Да перезаписать">
+            </div>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>
